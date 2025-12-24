@@ -1,0 +1,18 @@
+# AWS 설정
+aws_region = "ap-northeast-2"
+
+# 프로젝트 설정
+project     = "bebee"
+environment = "dev"
+
+# 네트워크 설정
+vpc_cidr = "10.0.0.0/16"
+
+# 가용 영역 (2개)
+availability_zones = ["ap-northeast-2a", "ap-northeast-2c"]
+
+# Public 서브넷 (2개, 각 AZ에 1개씩)
+public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+
+# Private 서브넷 (4개, 각 AZ에 2개씩 - 백엔드/DB 분리)
+private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24", "10.0.14.0/24"]
