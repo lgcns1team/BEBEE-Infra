@@ -34,8 +34,47 @@ variable "public_subnet_cidrs" {
   default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-variable "private_subnet_cidrs" {
-  description = "Private 서브넷 CIDR 리스트 (4개, 2개 AZ에 2개씩)"
+# Private 서브넷 (4개, 각 AZ에 2개씩 - 백엔드/DB 분리)
+variable private_subnet_cidrs {
+  description = "Private 서브넷 CIDR 리스트 (2개)"
+  type = list(string)
+  default = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24", "10.0.14.0/24"]
+}
+
+variable "db_root_password" {
+  description = "RDS root 사용자 비밀번호"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_bebee_password" {
+  description = "bebee 사용자 비밀번호"
+  type        = string
+  sensitive   = true
+  default     = "bebee1234"
+}
+
+
+
+# Bastion Host 설정
+
+variable "bastion_instance_type" {
+  description = "Bastion Host 인스턴스 타입"
+  type        = string
+  default     = "t2.micro"
+}
+
+
+
+variable "bastion_ssh_allowed_cidrs" {
+  description = "Bastion Host SSH 접속 허용 IP 대역"
   type        = list(string)
-  default     = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24", "10.0.14.0/24"]
+  default     = ["0.0.0.0/0"]
+}
+
+# S3 설정
+variable "s3_cors_allowed_origins" {
+  description = "S3 CORS에서 허용할 Origin 목록"
+  type        = list(string)
+  default     = ["*"]
 }
