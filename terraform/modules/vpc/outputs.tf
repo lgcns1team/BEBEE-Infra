@@ -47,3 +47,13 @@ output "private_route_table_ids" {
   description = "Private Route Table ID 리스트"
   value       = aws_route_table.private[*].id
 }
+
+output "nat_gateway_id" {
+  description = "NAT Gateway ID"
+  value       = length(aws_nat_gateway.main) > 0 ? aws_nat_gateway.main[0].id : null
+}
+
+output "nat_gateway_public_ip" {
+  description = "NAT Gateway Public IP"
+  value       = length(aws_eip.nat) > 0 ? aws_eip.nat[0].public_ip : null
+}

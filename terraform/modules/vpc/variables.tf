@@ -23,6 +23,12 @@ variable "private_subnet_cidrs" {
   type        = list(string)
 }
 
+variable "enable_nat_gateway" {
+  description = "NAT Gateway 활성화 여부"
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "공통 태그"
   type        = map(string)
