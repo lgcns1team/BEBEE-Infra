@@ -83,10 +83,10 @@ module "elasticache" {
   # Bastion에서의 접근 허용
   allowed_security_groups = [module.bastion.bastion_security_group_id]
 
-  # Private Subnet 1, 2번 (Index 0, 1) 사용
+  # Private Subnet 3, 4번 (Index 2, 3) 사용
   subnet_ids = [
-    module.vpc.private_subnet_ids[0],
-    module.vpc.private_subnet_ids[1]
+    module.vpc.private_subnet_ids[2],
+    module.vpc.private_subnet_ids[3]
   ]
 
   # Redis 스펙 설정
@@ -105,6 +105,32 @@ module "elasticache" {
   # Encryption (개발 환경에서는 비활성화)
   at_rest_encryption_enabled = false
   transit_encryption_enabled = false
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+  }
+}
+
+
+# EKS 클러스터 모듈 호출
+module "eks" {
+  source = "../../modules/eks"
+
+  cluster_name    = "${var.project}-${var.environment}-cluster"
+  cluster_version = var.eks_cluster_version
+
+  # Private Subnet 1, 2번 (Index 0, 1) 사용
+  subnet_ids = [
+    module.vpc.private_subnet_ids[0],
+    module.vpc.private_subnet_ids[1]
+  ]
+
+  # API 서버 접근 설정
+  endpoint_private_access = true  # VPC 내부에서 접근 가능
+  endpoint_public_access  = true  # 인터넷에서도 접근 가능 (개발 환경)
+  public_access_cidrs     = var.eks_public_access_cidrs
 
   tags = {
     Environment = var.environment
@@ -137,10 +163,13 @@ module "s3_images" {
   enable_bucket_policy = false
 
   # IAM Role for EKS (IRSA)
-  # EKS 클러스터가 생성되면 아래 값들을 설정
-  create_iam_role = false  # EKS 클러스터 생성 후 true로 변경
-  # eks_oidc_provider_arn = ""  # EKS OIDC Provider ARN
-  # eks_oidc_provider_url = ""  # EKS OIDC Provider URL
+  # 주의: S3 모듈이 EKS 모듈보다 먼저 선언되어 있어 순환 참조 발생
+  # 해결 방법: S3 모듈을 EKS 모듈 뒤로 이동하거나, 2단계로 적용
+  # 1단계: create_iam_role = false로 EKS 클러스터 먼저 생성
+  # 2단계: 아래 주석을 해제하고 create_iam_role = true로 변경 후 재적용
+  create_iam_role = false
+  # eks_oidc_provider_arn = module.eks.oidc_provider_arn
+  # eks_oidc_provider_url = module.eks.oidc_provider_url
   # eks_service_account_namespace = "default"
   # eks_service_account_name = "s3-access-sa"
 
