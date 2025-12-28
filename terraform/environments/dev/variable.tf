@@ -78,3 +78,16 @@ variable "s3_cors_allowed_origins" {
   type        = list(string)
   default     = ["*"]
 }
+
+# EKS 설정
+variable "eks_cluster_version" {
+  description = "EKS 클러스터 버전"
+  type        = string
+  default     = "1.34"
+}
+
+variable "eks_public_access_cidrs" {
+  description = "EKS API 서버 Public Endpoint 접근 허용 IP 대역"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
