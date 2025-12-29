@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-service
+  namespace: bebee
+spec:
+  template:
+    spec:
+      containers:
+        - name: chat-service
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        - name: config
+          configMap:
+            name: chat-service-config
+          
+          
+          
+          # resources:
+          #  requests:
+          #    memory: "256Mi"
+          #    cpu: "100m"
+          #  limits:
+          #    memory: "512Mi"
+          #    cpu: "500m"

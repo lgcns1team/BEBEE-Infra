@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bebee
+  labels:
+    name: bebee
+    app.kubernetes.io/part-of: bebee
+    environment: base
