@@ -9,6 +9,9 @@ module "vpc" {
   public_subnet_cidrs  = var.public_subnet_cidrs
   private_subnet_cidrs = var.private_subnet_cidrs
 
+  # EKS 클러스터 이름 전달 (서브넷 태그용)
+  cluster_name = "${var.project}-${var.environment}-cluster"
+
   tags = {
     Environment = var.environment
     Project     = var.project
@@ -181,5 +184,110 @@ module "s3_images" {
     Project     = var.project
     ManagedBy   = "Terraform"
     Purpose     = "Image Storage"
+  }
+}
+
+# ========================================
+# ECR Repositories (Container Registry)
+# ========================================
+
+module "ecr" {
+  for_each = var.ecr_repositories
+  source   = "../../modules/ecr"
+
+  repository_name      = "bebee-${each.key}-service"
+  image_tag_mutability = "MUTABLE"
+  scan_on_push         = true
+
+  enable_lifecycle_policy = true
+  lifecycle_keep_count    = 10
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Service     = each.key
+  }
+}
+
+# ========================================
+# Secrets Manager (시크릿 관리)
+# ========================================
+
+# Database Credentials
+module "secret_db_credentials" {
+  for_each = var.db_schemas
+  source = "../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-${each.key}-db-credentials"
+  description = "RDS 데이터베이스 접속 정보"
+
+  # RDS 모듈에서 생성된 정보를 자동으로 Secrets Manager에 저장
+  secret_string = jsonencode({
+    username = each.value.username
+    password = var.db_bebee_password
+    engine   = module.rds.engine
+    host     = module.rds.address
+    port     = module.rds.port
+    dbname   = each.value.db_name
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "database"
+  }
+
+  depends_on = [module.rds]
+}
+
+# Redis Credentials
+module "secret_redis_credentials" {
+  source = "../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-redis-credentials"
+  description = "ElastiCache Redis 접속 정보"
+
+  # ElastiCache 모듈에서 생성된 정보를 자동으로 Secrets Manager에 저장
+  secret_string = jsonencode({
+    primary_endpoint = module.elasticache.primary_endpoint_address
+    reader_endpoint  = module.elasticache.reader_endpoint_address
+    port             = module.elasticache.port
+    # 개발 환경에서는 인증 비활성화 (transit_encryption_enabled = false)
+    # 운영 환경에서는 auth_token 추가 필요
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "cache"
+  }
+
+  depends_on = [module.elasticache]
+}
+
+# Application JWT Secret
+module "secret_jwt" {
+  source = "../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-jwt-secret"
+  description = "JWT 토큰 생성용 Secret Key"
+
+  # 변수로 전달받은 JWT Secret 저장
+  secret_string = jsonencode({
+    jwt_secret               = var.jwt_secret
+    algorithm                = "HS256"
+    issuer                   = var.jwt_issuer
+    access_token_expires_in  = var.access_token_expires_in
+    refresh_token_expires_in = var.refresh_token_expires_in
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "application"
   }
 }

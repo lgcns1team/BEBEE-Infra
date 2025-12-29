@@ -57,7 +57,11 @@ resource "aws_subnet" "private" {
       Name = "${var.name_prefix}-private-subnet-${count.index + 1}"
       Type = "private"
       "kubernetes.io/role/internal-elb" = "1"
-    }
+    },
+    # EKS 클러스터가 서브넷을 인식할 수 있도록 태그 추가
+    var.cluster_name != null ? {
+      "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+    } : {}
   )
 }
 
