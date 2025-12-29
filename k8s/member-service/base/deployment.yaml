@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: member-service
+  namespace: bebee
+  labels:
+    app: member-service
+    app.kubernetes.io/name: member-service
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: bebee
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: member-service
+  template:
+    metadata:
+      labels:
+        app: member-service
+        app.kubernetes.io/name: member-service
+        app.kubernetes.io/component: backend
+    spec:
+      containers:
+        - name: member-service
+          image: bebe-member-service:latest
+          
+          ports:
+            - containerPort: 8080
+              name: http
+          
+          envFrom:
+            - secretRef:
+                name: member-service-env
