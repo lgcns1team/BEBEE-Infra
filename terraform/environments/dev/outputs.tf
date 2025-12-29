@@ -170,3 +170,28 @@ output "eks_aws_load_balancer_controller_role_arn" {
   description = "AWS Load Balancer Controller IAM Role ARN"
   value       = module.eks.aws_load_balancer_controller_role_arn
 }
+
+# ========================================
+# ECR Outputs
+# ========================================
+
+output "ecr_repository_urls" {
+  description = "모든 ECR 리포지토리 URL 맵 (서비스명: URL)"
+  value = {
+    for service, repo in module.ecr : service => repo.repository_url
+  }
+}
+
+output "ecr_repository_arns" {
+  description = "모든 ECR 리포지토리 ARN 맵 (서비스명: ARN)"
+  value = {
+    for service, repo in module.ecr : service => repo.repository_arn
+  }
+}
+
+output "ecr_repository_names" {
+  description = "모든 ECR 리포지토리 이름 맵 (서비스명: 이름)"
+  value = {
+    for service, repo in module.ecr : service => repo.repository_name
+  }
+}

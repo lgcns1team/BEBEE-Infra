@@ -29,6 +29,12 @@ variable "enable_nat_gateway" {
   default     = true
 }
 
+variable "cluster_name" {
+  description = "EKS 클러스터 이름 (서브넷 태그용, 선택사항)"
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "공통 태그"
   type        = map(string)
