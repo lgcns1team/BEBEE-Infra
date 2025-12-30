@@ -61,4 +61,6 @@ cors:
 logging:
   level:
     root: ${LOGGING_LEVEL_ROOT:INFO}
-    com.lgcns.bebee.member: ${LOGGING_LEVEL_SERVICE:INFO}
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+    com.lgcns.bebee.payment: ${LOGGING_LEVEL_SERVICE:INFO}

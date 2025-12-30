@@ -14,13 +14,13 @@ labels:
       environment: dev
 
 configMapGenerator:
-  - name: member-service-config
+  - name: payment-service-config
     files:
       - application.yaml=application-dev.yaml
 
 images:
-  - name: bebee-member-service
-    newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-member-service
+  - name: bebee-payment-service
+    newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-payment-service
     newTag: latest
 
 patches:

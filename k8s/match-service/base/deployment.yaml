@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: bebee
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: match-service
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: match-service
-          image: bebe-match-service:latest
+          image: bebee-match-service:latest
           
           ports:
             - containerPort: 8080
