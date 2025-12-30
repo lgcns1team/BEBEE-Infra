@@ -41,11 +41,13 @@ resource "null_resource" "db_init" {
 
   # Bastion에서 RDS로 SQL 스크립트 실행
   provisioner "remote-exec" {
+    on_failure = fail
+
     inline = [
       "echo '===================================='",
       "echo 'Installing MySQL client...'",
       "echo '===================================='",
-      "sudo yum install -y mysql",
+      "sudo yum install -y mariadb105",
       "echo '===================================='",
       "echo 'Waiting for RDS to be ready...'",
       "echo '===================================='",

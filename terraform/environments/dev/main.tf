@@ -1,3 +1,17 @@
+# ========================================
+# Data Sources (동적 값 조회)
+# ========================================
+
+# 현재 AWS Region 정보
+data "aws_region" "current" {}
+
+# 현재 AWS Account ID 정보
+data "aws_caller_identity" "current" {}
+
+# ========================================
+# VPC Module
+# ========================================
+
 # VPC 모듈 호출
 module "vpc" {
   source = "../../modules/vpc"
@@ -165,16 +179,12 @@ module "s3_images" {
   # 퍼블릭 읽기 비활성화 (개발 환경에서 테스트 시 true로 변경 가능)
   enable_bucket_policy = false
 
-  # IAM Role for EKS (IRSA)
-  # 주의: S3 모듈이 EKS 모듈보다 먼저 선언되어 있어 순환 참조 발생
-  # 해결 방법: S3 모듈을 EKS 모듈 뒤로 이동하거나, 2단계로 적용
-  # 1단계: create_iam_role = false로 EKS 클러스터 먼저 생성
-  # 2단계: 아래 주석을 해제하고 create_iam_role = true로 변경 후 재적용
-  create_iam_role = false
-  # eks_oidc_provider_arn = module.eks.oidc_provider_arn
-  # eks_oidc_provider_url = module.eks.oidc_provider_url
-  # eks_service_account_namespace = "default"
-  # eks_service_account_name = "s3-access-sa"
+  # IAM Role for EKS (IRSA) - file-service용 S3 접근
+  create_iam_role               = true
+  eks_oidc_provider_arn         = module.eks.oidc_provider_arn
+  eks_oidc_provider_url         = module.eks.oidc_provider_url
+  eks_service_account_namespace = "bebee"
+  eks_service_account_name      = "bebee-s3-sa"
 
   # 로컬 테스트용 IAM User 생성
   create_local_test_user = true
@@ -289,5 +299,116 @@ module "secret_jwt" {
     Project     = var.project
     ManagedBy   = "Terraform"
     Type        = "application"
+  }
+}
+
+# AWS Configuration
+module "secret_aws" {
+  source = "../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-aws-config"
+  description = "AWS 공통 설정 (Region, Account 등)"
+
+  # AWS 환경 정보
+  secret_string = jsonencode({
+    region     = data.aws_region.current.name
+    account_id = data.aws_caller_identity.current.account_id
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "aws"
+  }
+}
+
+# S3 Images Bucket Information
+module "secret_s3_images" {
+  source = "../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-s3-images"
+  description = "S3 Images Bucket 접속 정보"
+
+  # S3 모듈에서 생성된 정보를 자동으로 Secrets Manager에 저장
+  secret_string = jsonencode({
+    bucket_name                  = module.s3_images.bucket_name
+    bucket_arn                   = module.s3_images.bucket_arn
+    region                       = module.s3_images.bucket_region
+    bucket_domain_name           = module.s3_images.bucket_domain_name
+    bucket_regional_domain_name  = module.s3_images.bucket_regional_domain_name
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "storage"
+  }
+
+  depends_on = [module.s3_images]
+}
+
+# Application Configuration
+module "secret_app" {
+  source = "../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-app-config"
+  description = "애플리케이션 공통 설정"
+
+  # 애플리케이션 환경 설정
+  secret_string = jsonencode({
+    # Server 설정
+    server_port = "8080"
+    
+    # Swagger/API 문서 설정
+    springdoc_api_host = ""  # 개발 환경에서는 비워둠
+    springdoc_api_desc = "개발 서버"
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "application"
+  }
+}
+
+# ========================================
+# 통합 Secrets Manager IRSA (모든 서비스 공용)
+# ========================================
+module "secrets_manager_irsa" {
+  source = "../../modules/secrets-manager"
+
+  # Secret은 생성하지 않음 (IRSA만 생성)
+  create_secret = false
+  secret_name   = "${var.project}-${var.environment}-secrets-manager"
+
+  # IRSA 생성
+  create_iam_policy = true
+  create_iam_role   = true
+
+  # 통합 IAM Role/Policy 이름
+  iam_role_name   = "${var.project}-${var.environment}-secrets-manager-access-role"
+  iam_policy_name = "${var.project}-${var.environment}-secrets-manager-access"
+
+  # EKS OIDC Provider 정보
+  eks_oidc_provider_arn         = module.eks.oidc_provider_arn
+  eks_oidc_provider_url         = module.eks.oidc_provider_url
+  eks_service_account_namespace = "bebee"
+  eks_service_account_name      = "*-secrets-sa"
+
+  # 와일드카드 ServiceAccount 패턴 사용
+  use_service_account_wildcard = true
+
+  # 모든 bebee-dev-* secrets에 접근
+  use_wildcard_secrets   = true
+  wildcard_secret_prefix = "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${var.project}-${var.environment}-*"
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "irsa"
   }
 }
