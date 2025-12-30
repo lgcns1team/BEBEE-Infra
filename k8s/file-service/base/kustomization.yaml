@@ -5,13 +5,15 @@ namespace: bebee
 
 # Base 리소스
 resources:
+  - ../../common
   - deployment.yaml
   - service.yaml
-  - service-account.yaml
 
 # 공통 레이블
-commonLabels:
-  app: file-service
-  app.kubernetes.io/name: file-service
-  app.kubernetes.io/component: backend
-  app.kubernetes.io/part-of: bebee
+labels:
+  - includeSelectors: true
+    pairs:
+      app: file-service
+      app.kubernetes.io/name: file-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: bebee

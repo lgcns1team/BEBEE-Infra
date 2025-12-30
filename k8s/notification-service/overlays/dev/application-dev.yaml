@@ -61,4 +61,4 @@ cors:
 logging:
   level:
     root: ${LOGGING_LEVEL_ROOT:INFO}
-    com.lgcns.bebee.member: ${LOGGING_LEVEL_SERVICE:INFO}
+    com.lgcns.bebee.notification: ${LOGGING_LEVEL_SERVICE:INFO}

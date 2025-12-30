@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: bebee
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: chat-service
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: chat-service
-        image: bebe-chat-service:latest
+        image: bebee-chat-service:latest
 
         ports:
         - containerPort: 8080

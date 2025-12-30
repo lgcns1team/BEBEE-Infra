@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: bebee
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: file-service
@@ -20,8 +20,6 @@ spec:
         app.kubernetes.io/name: file-service
         app.kubernetes.io/component: backend
     spec:
-      serviceAccountName: bebee-file-service-sa
-
       containers:
       - name: file-service
         image: bebee-file-service:latest

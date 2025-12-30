@@ -1,11 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 namespace: bebee
+
 resources:
+  - ../../common
   - deployment.yaml
   - service.yaml
-commonLabels:
-  app: notification-service
-  app.kubernetes.io/name: notification-service
-  app.kubernetes.io/component: backend
-  app.kubernetes.io/part-of: bebee
+
+labels:
+  - pairs:
+      app: notification-service
+      app.kubernetes.io/name: notification-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: bebee

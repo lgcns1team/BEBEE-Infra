@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: bebee
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: member-service
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: member-service
-          image: bebe-member-service:latest
+          image: bebee-member-service:latest
           
           ports:
             - containerPort: 8080

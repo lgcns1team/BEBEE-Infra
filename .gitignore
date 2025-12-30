@@ -52,3 +52,6 @@ Thumbs.db
 # 백업 파일
 *.bak
 *.backup
+
+# sql 스크립트 파일
+*.sql

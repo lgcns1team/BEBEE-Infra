@@ -40,12 +40,12 @@ output "iam_policy_name" {
 
 output "iam_role_arn" {
   description = "S3 접근용 IAM Role ARN (EKS IRSA용)"
-  value       = var.create_iam_role && var.eks_oidc_provider_arn != "" ? aws_iam_role.s3_access[0].arn : null
+  value       = var.create_iam_role ? aws_iam_role.s3_access[0].arn : null
 }
 
 output "iam_role_name" {
   description = "S3 접근용 IAM Role 이름 (EKS IRSA용)"
-  value       = var.create_iam_role && var.eks_oidc_provider_arn != "" ? aws_iam_role.s3_access[0].name : null
+  value       = var.create_iam_role ? aws_iam_role.s3_access[0].name : null
 }
 
 output "local_test_user_name" {

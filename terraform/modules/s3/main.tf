@@ -185,7 +185,7 @@ resource "aws_iam_policy" "s3_access" {
 # EKS Pod에서 S3에 접근하기 위한 IAM Role
 
 resource "aws_iam_role" "s3_access" {
-  count = var.create_iam_role && var.eks_oidc_provider_arn != "" ? 1 : 0
+  count = var.create_iam_role ? 1 : 0
 
   name = "${var.bucket_name}-eks-access-role"
 
@@ -218,7 +218,7 @@ resource "aws_iam_role" "s3_access" {
 
 # IAM Role에 Policy 연결
 resource "aws_iam_role_policy_attachment" "s3_access" {
-  count = var.create_iam_role && var.eks_oidc_provider_arn != "" ? 1 : 0
+  count = var.create_iam_role ? 1 : 0
 
   role       = aws_iam_role.s3_access[0].name
   policy_arn = aws_iam_policy.s3_access.arn

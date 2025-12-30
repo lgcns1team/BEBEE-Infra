@@ -4,11 +4,15 @@ kind: Kustomization
 namespace: bebee
 
 resources:
+  - ../../common
   - deployment.yaml
   - service.yaml
 
-commonLabels:
-  app: chat-service
-  app.kubernetes.io/name: chat-service
-  app.kubernetes.io/component: backend
-  app.kubernetes.io/part-of: bebee
+# 공통 레이블
+labels:
+  - includeSelectors: true
+    pairs:
+      app: chat-service
+      app.kubernetes.io/name: file-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: bebee

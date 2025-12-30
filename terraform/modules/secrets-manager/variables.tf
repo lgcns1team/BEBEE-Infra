@@ -1,3 +1,9 @@
+variable "create_secret" {
+  description = "Secret 리소스 생성 여부 (false이면 IRSA만 생성)"
+  type        = bool
+  default     = true
+}
+
 variable "secret_name" {
   description = "시크릿 이름 (고유해야 함)"
   type        = string
@@ -64,4 +70,80 @@ variable "tags" {
   description = "리소스 태그"
   type        = map(string)
   default     = {}
+}
+
+# ========================================
+# IRSA (IAM Roles for Service Accounts) 관련 변수
+# ========================================
+
+variable "create_iam_policy" {
+  description = "IAM Policy 생성 여부"
+  type        = bool
+  default     = false
+}
+
+variable "create_iam_role" {
+  description = "IAM Role 생성 여부 (EKS에서 Secrets Manager 접근)"
+  type        = bool
+  default     = false
+}
+
+variable "iam_role_name" {
+  description = "IAM Role 이름 (비어있으면 자동 생성: {secret_name}-eks-access-role)"
+  type        = string
+  default     = ""
+}
+
+variable "iam_policy_name" {
+  description = "IAM Policy 이름 (비어있으면 자동 생성: {secret_name}-access-policy)"
+  type        = string
+  default     = ""
+}
+
+variable "eks_oidc_provider_arn" {
+  description = "EKS OIDC Provider ARN (EKS IAM Role 생성 시 필요)"
+  type        = string
+  default     = ""
+}
+
+variable "eks_oidc_provider_url" {
+  description = "EKS OIDC Provider URL (EKS IAM Role 생성 시 필요)"
+  type        = string
+  default     = ""
+}
+
+variable "eks_service_account_namespace" {
+  description = "EKS Service Account Namespace"
+  type        = string
+  default     = "default"
+}
+
+variable "eks_service_account_name" {
+  description = "EKS Service Account Name (와일드카드 지원: *-secrets-sa)"
+  type        = string
+  default     = "secrets-manager-access-sa"
+}
+
+variable "use_service_account_wildcard" {
+  description = "ServiceAccount 이름에 와일드카드 사용 여부 (StringLike 조건 사용)"
+  type        = bool
+  default     = false
+}
+
+variable "additional_secret_arns" {
+  description = "추가로 접근할 Secret ARN 목록 (통합 IAM Role용)"
+  type        = list(string)
+  default     = []
+}
+
+variable "use_wildcard_secrets" {
+  description = "와일드카드를 사용하여 모든 secrets에 접근 (true이면 additional_secret_arns 무시)"
+  type        = bool
+  default     = false
+}
+
+variable "wildcard_secret_prefix" {
+  description = "와일드카드 사용 시 Secret ARN 접두사 (예: arn:aws:secretsmanager:region:account:secret:prefix-*)"
+  type        = string
+  default     = ""
 }
