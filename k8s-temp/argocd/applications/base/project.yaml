@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: bebee
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: bebee-project
+    app.kubernetes.io/part-of: bebee
+spec:
+  description: BeBee Microservices Project
+
+  sourceRepos:
+    - https://github.com/lgcns1team/BEBEE-Infra.git
+
+  destinations:
+    - namespace: bebee
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  roles:
+    - name: developer
+      description: Developer role
+      policies:
+        - p, proj:bebee:developer, applications, get, bebee/*, allow
+        - p, proj:bebee:developer, applications, sync, bebee/*, allow
