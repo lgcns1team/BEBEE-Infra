@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: bebee
+
+labels:
+  - pairs:
+      app: swagger
+      app.kubernetes.io/name: swagger
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: bebee
+
+resources:
+  - deployment.yaml
+  - service.yaml

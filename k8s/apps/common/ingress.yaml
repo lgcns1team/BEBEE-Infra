@@ -1,0 +1,100 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bebee-ingress
+  namespace: bebee
+  annotations:
+    # AWS Load Balancer Controller 설정
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/group.name: bebee-dev-group
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:383488877070:certificate/fe1b0dbe-dbbe-46b4-a3cb-917f94f90ba8
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+
+    # 헬스체크 설정
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+
+    # 로드 밸런서 속성
+    alb.ingress.kubernetes.io/load-balancer-name: bebee-dev-alb
+    alb.ingress.kubernetes.io/tags: Environment=dev,Project=bebee,ManagedBy=Kubernetes
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      # Swagger UI (통합 API 문서)
+      - path: /swagger-ui
+        pathType: Prefix
+        backend:
+          service:
+            name: swagger
+            port:
+              number: 80
+
+      - path: /api-docs
+        pathType: Prefix
+        backend:
+          service:
+            name: swagger
+            port:
+              number: 80
+
+      # File Service
+      - path: /file
+        pathType: Prefix
+        backend:
+          service:
+            name: file-service
+            port:
+              number: 80
+
+      # Chat Service
+      - path: /chat
+        pathType: Prefix
+        backend:
+          service:
+            name: chat-service
+            port:
+              number: 80
+
+      # Match Service
+      - path: /match
+        pathType: Prefix
+        backend:
+          service:
+            name: match-service
+            port:
+              number: 80
+
+      # Member Service
+      - path: /member
+        pathType: Prefix
+        backend:
+          service:
+            name: member-service
+            port:
+              number: 80
+
+      # Notification Service
+      - path: /notification
+        pathType: Prefix
+        backend:
+          service:
+            name: notification-service
+            port:
+              number: 80
+
+      # Payment Service
+      - path: /payment
+        pathType: Prefix
+        backend:
+          service:
+            name: payment-service
+            port:
+              number: 80

@@ -136,5 +136,5 @@ variable "eks_public_access_cidrs" {
 variable "ecr_repositories" {
   description = "ECR 리포지토리 목록 (서비스별)"
   type        = set(string)
-  default     = ["chat", "file", "match", "member", "notification", "payment"]
+  default     = ["chat", "file", "match", "member", "notification", "payment", "swagger"]
 }

@@ -1,0 +1,84 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bebee-ingress
+  namespace: bebee
+  annotations:
+    # AWS Load Balancer Controller 설정
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      # Swagger UI (통합 API 문서)
+      - path: /swagger-ui
+        pathType: Prefix
+        backend:
+          service:
+            name: swagger
+            port:
+              number: 80
+
+      - path: /api-docs
+        pathType: Prefix
+        backend:
+          service:
+            name: swagger
+            port:
+              number: 80
+
+      # File Service
+      - path: /file
+        pathType: Prefix
+        backend:
+          service:
+            name: file-service
+            port:
+              number: 80
+
+      # Chat Service
+      - path: /chat
+        pathType: Prefix
+        backend:
+          service:
+            name: chat-service
+            port:
+              number: 80
+
+      # Match Service
+      - path: /match
+        pathType: Prefix
+        backend:
+          service:
+            name: match-service
+            port:
+              number: 80
+
+      # Member Service
+      - path: /member
+        pathType: Prefix
+        backend:
+          service:
+            name: member-service
+            port:
+              number: 80
+
+      # Notification Service
+      - path: /notification
+        pathType: Prefix
+        backend:
+          service:
+            name: notification-service
+            port:
+              number: 80
+
+      # Payment Service
+      - path: /payment
+        pathType: Prefix
+        backend:
+          service:
+            name: payment-service
+            port:
+              number: 80
