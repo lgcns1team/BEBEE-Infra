@@ -1,5 +1,7 @@
 server:
   port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /chat
 
 spring:
   datasource:
@@ -47,9 +49,9 @@ spring:
       password: ${REDIS_PASSWORD:}
 
     # Mongodb 설정
-#    mongodb:
-#      uri: ${MONGODB_URI:mongodb://${MONGODB_USERNAME:bebee}:${MONGODB_PASSWORD:bebee1234}@${MONGODB_HOST:mongo-db}:27017/bebee?authSource=admin}
-#      auto-index-creation: ${AUTO_INDEX_CREATION:false}
+  #    mongodb:
+  #      uri: ${MONGODB_URI:mongodb://${MONGODB_USERNAME:bebee}:${MONGODB_PASSWORD:bebee1234}@${MONGODB_HOST:mongo-db}:27017/bebee?authSource=admin}
+  #      auto-index-creation: ${AUTO_INDEX_CREATION:false}
 
   # Flyway 설정ㅇ
   flyway:
