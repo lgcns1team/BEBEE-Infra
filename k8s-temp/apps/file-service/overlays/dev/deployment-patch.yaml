@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-service
+  namespace: bebee
+spec:
+  template:
+    spec:
+      serviceAccountName: bebee-s3-sa
+      containers:
+      - name: file-service
+        volumeMounts:
+          - name: config
+            mountPath: /app/config
+      volumes:
+      - name: config
+        configMap:
+          name: file-service-config

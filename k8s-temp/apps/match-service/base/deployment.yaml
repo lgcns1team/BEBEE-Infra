@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: match-service
+  namespace: bebee
+  labels:
+    app: match-service
+    app.kubernetes.io/name: match-service
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: bebee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: match-service
+  template:
+    metadata:
+      labels:
+        app: match-service
+    spec:
+      containers:
+      - name: match-service
+        image: bebee-match-service:latest
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 8080
+
+        envFrom:
+          - secretRef:
+              name: match-service-env
+
+        livenessProbe:
+          httpGet:
+            path: /match/actuator/health
+            port: 8080
+          initialDelaySeconds: 20
