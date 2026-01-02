@@ -24,7 +24,7 @@ variable "kms_key_id" {
 variable "recovery_window_in_days" {
   description = "시크릿 삭제 후 복구 가능 기간 (7-30일, 0이면 즉시 삭제)"
   type        = number
-  default     = 30
+  default     = 0
 
   validation {
     condition     = var.recovery_window_in_days == 0 || (var.recovery_window_in_days >= 7 && var.recovery_window_in_days <= 30)

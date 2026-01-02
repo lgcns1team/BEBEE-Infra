@@ -4,7 +4,6 @@ metadata:
   name: file-service
   namespace: bebee
 spec:
-  replicas: 2
   template:
     spec:
       serviceAccountName: bebee-s3-sa

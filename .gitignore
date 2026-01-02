@@ -55,3 +55,4 @@ Thumbs.db
 
 # sql 스크립트 파일
 *.sql
+*.js
