@@ -39,42 +39,6 @@ variable "enable_bucket_policy" {
   default     = false
 }
 
-variable "create_iam_role" {
-  description = "IAM Role 생성 여부 (EKS에서 S3 접근)"
-  type        = bool
-  default     = true
-}
-
-variable "eks_oidc_provider_arn" {
-  description = "EKS OIDC Provider ARN (EKS IAM Role 생성 시 필요)"
-  type        = string
-  default     = ""
-}
-
-variable "eks_oidc_provider_url" {
-  description = "EKS OIDC Provider URL (EKS IAM Role 생성 시 필요)"
-  type        = string
-  default     = ""
-}
-
-variable "eks_service_account_namespace" {
-  description = "EKS Service Account Namespace"
-  type        = string
-  default     = "default"
-}
-
-variable "eks_service_account_name" {
-  description = "EKS Service Account Name"
-  type        = string
-  default     = "s3-access-sa"
-}
-
-variable "create_local_test_user" {
-  description = "로컬 테스트용 IAM User 생성 여부"
-  type        = bool
-  default     = false
-}
-
 variable "tags" {
   description = "공통 태그"
   type        = map(string)
