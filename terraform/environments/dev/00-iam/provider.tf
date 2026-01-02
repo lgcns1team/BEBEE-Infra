@@ -1,14 +1,14 @@
+# ========================================
+# Terraform & Provider Configuration
+# ========================================
+
 terraform {
   required_version = ">= 1.0"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"  # 메이저 버전 고정
-    }
-    mysql = {
-      source  = "petoju/mysql"
-      version = "~> 3.0"
+      version = "~> 5.0"
     }
   }
 }
@@ -27,7 +27,3 @@ provider "aws"{
     }
   }
 }
-
-# MySQL provider 설정
-# Note: RDS가 private subnet에 있어 Bastion을 통한 접속 필요
-# 실제 연결은 main.tf의 리소스에서 처리
