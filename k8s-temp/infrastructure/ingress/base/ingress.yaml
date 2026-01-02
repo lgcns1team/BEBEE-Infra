@@ -7,6 +7,14 @@ metadata:
     # AWS Load Balancer Controller 설정
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/target-type: ip
+
+    # Terraform으로 미리 생성한 ALB 사용 (자동 생성 방지)
+    alb.ingress.kubernetes.io/load-balancer-name: bebee-dev-ingress-alb
+    alb.ingress.kubernetes.io/group.name: bebee-dev-ingress
+
+    # ALB 설정
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
 spec:
   ingressClassName: alb
   rules:

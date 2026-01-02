@@ -5,7 +5,7 @@ metadata:
   namespace: bebee
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/group.name: bebee-dev-group
+    alb.ingress.kubernetes.io/group.name: bebee-dev-ingress
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:383488877070:certificate/fe1b0dbe-dbbe-46b4-a3cb-917f94f90ba8
     alb.ingress.kubernetes.io/ssl-redirect: '443'
