@@ -21,6 +21,8 @@ spec:
           path: k8s-temp/apps/notification-service/overlays/dev
         - name: payment
           path: k8s-temp/apps/payment-service/overlays/dev
+        - name: gateway
+          path: k8s-temp/apps/gateway/overlays/dev
   template:
     metadata:
       name: '{{name}}-service'

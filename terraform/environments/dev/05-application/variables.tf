@@ -61,3 +61,15 @@ variable "db_schemas" {
     payment      = { db_name = "bebee_payment", username = "bebee" }
   }
 }
+
+variable "mongodb_username" {
+  description = "MongoDB 사용자명"
+  type        = string
+  sensitive   = true
+}
+
+variable "mongodb_password" {
+  description = "MongoDB 비밀번호"
+  type        = string
+  sensitive   = true
+}

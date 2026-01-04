@@ -21,6 +21,7 @@ spec:
       containers:
       - name: match-service
         image: bebee-match-service:latest
+        imagePullPolicy: Always
         ports:
         - name: http
           protocol: TCP
@@ -32,6 +33,6 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /match/actuator/health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 20

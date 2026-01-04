@@ -1,7 +1,7 @@
 server:
   port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /match
+    context-path:
 
 spring:
   datasource:
@@ -73,5 +73,5 @@ management:
 
 logging:
   level:
-    root: ${LOGGING_LEVEL_ROOT:INFO}
+    root: ${LOGGING_LEVEL_ROOT:debug}
     com.lgcns.bebee.match: ${LOGGING_LEVEL_SERVICE:INFO}
