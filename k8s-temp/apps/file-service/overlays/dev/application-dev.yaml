@@ -1,7 +1,7 @@
 server:
   port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /file
+    context-path:
 
 spring:
   cloud:
@@ -22,13 +22,6 @@ springdoc:
     path: /api-docs
     enabled: true
   swagger-ui:
-    urls:
-      - name: "1. File Service"
-        url: /file/api-docs
-      - name: "2. Chat Service"
-        url: /chat/api-docs
-      - name: "3. Member Service"
-        url: /member/api-docs
     path: /swagger-ui.html
     enabled: true
     tags-sorter: alpha

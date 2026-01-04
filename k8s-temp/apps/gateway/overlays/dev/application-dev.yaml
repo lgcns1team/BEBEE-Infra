@@ -1,0 +1,148 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: gateway
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowedOriginPatterns:
+                  - "https://be-bee.link"
+                  - "http://localhost:[*]"
+                  - "https://localhost:[*]"
+                  - "http://127.0.0.1:[*]"
+                  - "https://127.0.0.1:[*]"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders: "*"
+                allowCredentials: true
+                maxAge: 3600
+          routes:
+            # Member Service
+            - id: member-service
+              uri: ${SERVICE_MEMBER_URL:http://member-service}
+              predicates:
+                - Path=/member/**
+              filters:
+                - RewritePath=/member/(?<segment>.*), /$\{segment}
+
+            # Match Service
+            - id: match-service
+              uri: ${SERVICE_MATCH_URL:http://match-service}
+              predicates:
+                - Path=/match/**
+              filters:
+                - RewritePath=/match/(?<segment>.*), /$\{segment}
+
+            # Chat Service
+            - id: chat-service
+              uri: ${SERVICE_CHAT_URL:http://chat-service}
+              predicates:
+                - Path=/chat/**
+              filters:
+                - RewritePath=/chat/(?<segment>.*), /$\{segment}
+
+            # Notification Service
+            - id: notification-service
+              uri: ${SERVICE_NOTIFICATION_URL:http://notification-service}
+              predicates:
+                - Path=/notification/**
+              filters:
+                - RewritePath=/notification/(?<segment>.*), /$\{segment}
+
+            # Payment Service
+            - id: payment-service
+              uri: ${SERVICE_PAYMENT_URL:http://payment-service}
+              predicates:
+                - Path=/payment/**
+              filters:
+                - RewritePath=/payment/(?<segment>.*), /$\{segment}
+
+            # File Service
+            - id: file-service
+              uri: ${SERVICE_FILE_URL:http://file-service}
+              predicates:
+                - Path=/file/**
+              filters:
+                - RewritePath=/file/(?<segment>.*), /$\{segment}
+
+# JWT 설정
+jwt:
+  secret: ${JWT_SECRET:}
+  issuer: ${JWT_ISSUER:}
+  access-token-expiration: ${JWT_ACCESS_EXPIRES_IN:}
+  refresh-token-expiration: ${JWT_REFRESH_EXPIRES_IN:}
+
+gateway:
+  auth:
+    exclude-paths:
+      - /member/auth
+      - /*/api-docs
+      - /api-docs/**
+      - /swagger-ui/**
+      - /swagger-ui.html
+      - /member/test/**
+      - /file/**
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    config-url: /api-docs/swagger-config
+    path: /swagger-ui.html
+    primary-name: Match
+    urls:
+      - name: Member
+        url: /member/api-docs
+      - name: Match
+        url: /match/api-docs
+      - name: Chat
+        url: /chat/api-docs
+      - name: Payment
+        url: /payment/api-docs
+      - name: Notification
+        url: /notification/api-docs
+      - name: File
+        url: /file/api-docs
+
+# Actuator 설정
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, gateway
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+    gateway:
+      enabled: true
+
+# 로깅 설정
+logging:
+  level:
+    # 루트 로그 레벨 설정 (환경 변수에서 가져오거나 기본값 info 사용)
+    root: ${LOGGING_LEVEL_ROOT:debug}
+
+    com.lgcns.bebee.gateway: ${LOGGING_LEVEL_SERVICE:info}
+    com.lgcns.bebee.gateway.filter: DEBUG  # 필터 로그 확인용

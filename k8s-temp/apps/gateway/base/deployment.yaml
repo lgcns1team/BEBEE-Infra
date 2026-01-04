@@ -1,28 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notification-service
+  name: gateway
   namespace: bebee
   labels:
-    app: notification-service
-    app.kubernetes.io/name: notification-service
-    app.kubernetes.io/component: backend
+    app: gateway
+    app.kubernetes.io/name: gateway
+    app.kubernetes.io/component: api-gateway
     app.kubernetes.io/part-of: bebee
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: notification-service
+      app: gateway
   template:
     metadata:
       labels:
-        app: notification-service
-        app.kubernetes.io/name: notification-service
-        app.kubernetes.io/component: backend
+        app: gateway
     spec:
       containers:
-      - name: notification-service
-        image: bebee-notification-service:latest
+      - name: gateway
+        image: bebee-gateway:latest
         ports:
         - name: http
           protocol: TCP
@@ -30,10 +27,12 @@ spec:
 
         envFrom:
           - secretRef:
-              name: notification-service-env
+              name: gateway-env
 
         livenessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
           initialDelaySeconds: 20
+
+        

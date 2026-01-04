@@ -14,13 +14,13 @@ labels:
     environment: dev
 
 configMapGenerator:
-  - name: match-service-config
+  - name: gateway-config
     files:
       - application.yaml=application-dev.yaml
 
 images:
-  - name: bebee-match-service
-    newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-match-service
+  - name: bebee-gateway
+    newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-gateway-service
     newTag: latest
 
 patches:

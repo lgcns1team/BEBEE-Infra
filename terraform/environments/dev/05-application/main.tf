@@ -88,6 +88,31 @@ module "secret_redis_credentials" {
 }
 
 # ========================================
+# Secrets Manager - MongoDB Credentials
+# ========================================
+
+module "secret_mongodb_credentials" {
+  source = "../../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-mongodb-credentials"
+  description = "MongoDB 접속 정보"
+
+  secret_string = jsonencode({
+    host     = data.terraform_remote_state.database.outputs.mongodb_private_ip
+    username = var.mongodb_username
+    password = var.mongodb_password
+    uri      = "mongodb://${var.mongodb_username}:${var.mongodb_password}@${data.terraform_remote_state.database.outputs.mongodb_private_ip}:27017/bebee?authSource=bebee"
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "database"
+  }
+}
+
+# ========================================
 # Secrets Manager - JWT Secret
 # ========================================
 

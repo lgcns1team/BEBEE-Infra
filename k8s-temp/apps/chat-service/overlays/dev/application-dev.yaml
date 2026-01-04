@@ -1,7 +1,7 @@
 server:
   port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /chat
+    context-path:
 
 spring:
   datasource:
@@ -49,9 +49,9 @@ spring:
       password: ${REDIS_PASSWORD:}
 
     # Mongodb 설정
-  #    mongodb:
-  #      uri: ${MONGODB_URI:mongodb://${MONGODB_USERNAME:bebee}:${MONGODB_PASSWORD:bebee1234}@${MONGODB_HOST:mongo-db}:27017/bebee?authSource=admin}
-  #      auto-index-creation: ${AUTO_INDEX_CREATION:false}
+      mongodb:
+        uri: ${MONGODB_URI:mongodb://${MONGODB_USERNAME:bebee}:${MONGODB_PASSWORD:bebee1234}@${MONGODB_HOST:mongo-db}:27017/bebee?authSource=bebee}
+        auto-index-creation: ${AUTO_INDEX_CREATION:false}
 
   # Flyway 설정ㅇ
   flyway:
@@ -89,7 +89,6 @@ springdoc:
   default-produces-media-type: application/json
 
   api:
-    #    host: "${SPRINGDOC_API_HOST:}"
     desc: "${SPRINGDOC_API_DESC:로컬 서버}"
 
 tsid:
@@ -127,14 +126,8 @@ logging:
     # 루트 로그 레벨 설정 (환경 변수에서 가져오거나 기본값 info 사용)
     root: ${LOGGING_LEVEL_ROOT:INFO}
 
-    # Hibernate SQL 쿼리 로그 레벨 (debug: 상세한 쿼리 정보 출력)
-    org.hibernate.SQL: DEBUG
-
-    # Hibernate 파라미터 바인딩 로그 레벨 (trace: 모든 파라미터 값 출력)
-    org.hibernate.type: TRACE
-
     # Spring Data MongoDB Template 로그 레벨 (DEBUG: MongoDB 쿼리 정보 출력)
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+#    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
     # 애플리케이션 서비스 패키지 로그 레벨
     com.lgcns.bebee.chat: ${LOGGING_LEVEL_SERVICE:INFO}

@@ -5,9 +5,9 @@ namespace: bebee
 
 labels:
   - pairs:
-      app: chat-service
-      app.kubernetes.io/name: chat-service
-      app.kubernetes.io/component: backend
+      app: gateway
+      app.kubernetes.io/name: gateway
+      app.kubernetes.io/component: api-gateway
       app.kubernetes.io/part-of: bebee
 
 resources:

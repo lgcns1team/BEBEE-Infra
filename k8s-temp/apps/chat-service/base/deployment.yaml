@@ -34,6 +34,6 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /chat/actuator/health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 20
