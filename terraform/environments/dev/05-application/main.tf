@@ -243,3 +243,90 @@ module "secrets_manager_irsa" {
     Type        = "irsa"
   }
 }
+
+# ========================================
+# IAM Role for EKS S3 Access (IRSA)
+# ========================================
+# 00-iam 에서 이동됨
+# EKS Pod가 S3에 접근하기 위한 IAM Role 및 Policy
+
+# S3 접근용 IAM Policy
+resource "aws_iam_policy" "s3_access" {
+  name        = "${var.project}-${var.environment}-s3-access-policy"
+  description = "Policy for EKS Pods to access S3 buckets"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowS3ObjectOperations"
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+          "s3:GetObject",
+          "s3:GetObjectAcl",
+          "s3:DeleteObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::${var.project}-${var.environment}-*/*"
+        ]
+      },
+      {
+        Sid    = "AllowS3BucketOperations"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket",
+          "s3:GetBucketLocation"
+        ]
+        Resource = [
+          "arn:aws:s3:::${var.project}-${var.environment}-*"
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Name        = "${var.project}-${var.environment}-s3-access-policy"
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+  }
+}
+
+# S3 접근용 IAM Role (EKS IRSA)
+resource "aws_iam_role" "s3_eks_access" {
+  name = "${var.project}-${var.environment}-s3-eks-access-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Federated = data.terraform_remote_state.compute.outputs.eks_oidc_provider_arn
+        }
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringLike = {
+            "${replace(data.terraform_remote_state.compute.outputs.eks_oidc_provider_url, "https://", "")}:sub" = "system:serviceaccount:bebee:*-s3-sa"
+            "${replace(data.terraform_remote_state.compute.outputs.eks_oidc_provider_url, "https://", "")}:aud" = "sts.amazonaws.com"
+          }
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Name        = "${var.project}-${var.environment}-s3-eks-access-role"
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+  }
+}
+
+# IAM Role에 S3 Policy 연결
+resource "aws_iam_role_policy_attachment" "s3_eks_access" {
+  role       = aws_iam_role.s3_eks_access.name
+  policy_arn = aws_iam_policy.s3_access.arn
+}

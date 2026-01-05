@@ -43,3 +43,27 @@ output "ecr_repository_names" {
     for service, repo in module.ecr : service => repo.repository_name
   }
 }
+
+# ========================================
+# CloudFront Outputs
+# ========================================
+
+output "cloudfront_distribution_id" {
+  description = "이미지 CloudFront Distribution ID"
+  value       = aws_cloudfront_distribution.images.id
+}
+
+output "cloudfront_distribution_arn" {
+  description = "이미지 CloudFront Distribution ARN"
+  value       = aws_cloudfront_distribution.images.arn
+}
+
+output "cloudfront_distribution_domain_name" {
+  description = "이미지 CloudFront Distribution 도메인 (이 URL을 file-service에서 사용)"
+  value       = aws_cloudfront_distribution.images.domain_name
+}
+
+output "cloudfront_distribution_url" {
+  description = "이미지 CloudFront Distribution HTTPS URL"
+  value       = "https://${aws_cloudfront_distribution.images.domain_name}"
+}
