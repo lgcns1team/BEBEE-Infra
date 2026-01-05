@@ -6,6 +6,7 @@ namespace: bebee
 resources:
   - ../../base
   - secret-manager-sa.yaml
+  - messaging-sa.yaml
   - secret-store.yaml
   - external-secret.yaml
 
