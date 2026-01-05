@@ -21,7 +21,7 @@ configMapGenerator:
 images:
   - name: bebee-member-service
     newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-member-service
-    newTag: ebb30504518f993b90a1b044f55443eb6a7d841d
+    newTag: 097d7735fe0738d40945a67b40b8322170821bdd
 
 patches:
   - path: deployment-patch.yaml
