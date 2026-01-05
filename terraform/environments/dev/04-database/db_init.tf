@@ -150,6 +150,45 @@ resource "null_resource" "mongodb_init" {
   }
 }
 
+# -------------------------------------------------------------------------
+# MongoDB 더미 채팅 데이터 삽입
+# -------------------------------------------------------------------------
+resource "null_resource" "mongodb_seed_chat" {
+  depends_on = [null_resource.mongodb_init]
+
+  # 채팅 데이터 시드 스크립트를 Bastion으로 복사
+  provisioner "file" {
+    source      = "${path.module}/scripts/seed_chat_data.js"
+    destination = "/tmp/seed_chat_data.js"
+
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = local.bastion_public_ip
+      private_key = file(local.bastion_private_key_path)
+    }
+  }
+
+  # Bastion에서 시드 스크립트 실행
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Running MongoDB chat data seeding script...'",
+      "mongosh mongodb://${var.mongodb_admin_username}:${var.mongodb_admin_password}@${local.mongodb_host}:${local.mongodb_port}/admin < /tmp/seed_chat_data.js",
+
+      # 정리
+      "rm -f /tmp/seed_chat_data.js",
+      "echo 'MongoDB chat data seeding completed!'"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = local.bastion_public_ip
+      private_key = file(local.bastion_private_key_path)
+    }
+  }
+}
+
 # 초기화 완료 출력
 output "db_initialization_status" {
   description = "DB 초기화 상태"
@@ -161,9 +200,11 @@ output "db_initialization_status" {
     databases       = ["bebee_member", "bebee_match", "bebee_chat", "bebee_notification", "bebee_payment", "MongoDB"]
     bebee_user      = "bebee@%"
     initialization  = "Auto-initialized via Terraform"
+    chat_seed_data  = "Inserted 10 dummy chat messages for chatroom_id=1"
   }
   depends_on = [
     null_resource.db_init,
-    null_resource.mongodb_init
+    null_resource.mongodb_init,
+    null_resource.mongodb_seed_chat
   ]
 }

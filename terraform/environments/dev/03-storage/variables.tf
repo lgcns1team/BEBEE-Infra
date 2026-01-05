@@ -27,3 +27,9 @@ variable "ecr_repositories" {
   type        = set(string)
   default     = ["chat", "file", "match", "member", "notification", "payment", "swagger", "gateway"]
 }
+
+variable "cloudfront_price_class" {
+  description = "CloudFront 요금 클래스 (PriceClass_All, PriceClass_200, PriceClass_100)"
+  type        = string
+  default     = "PriceClass_200" # 아시아, 유럽, 북미
+}

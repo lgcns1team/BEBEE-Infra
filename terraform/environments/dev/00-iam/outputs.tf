@@ -26,17 +26,17 @@ output "s3_secret_access_key" {
 }
 
 # IAM Role (EKS IRSA용)
-output "s3_eks_access_role_arn" {
-  description = "S3 접근용 IAM Role ARN (EKS IRSA)"
-  value       = aws_iam_role.s3_eks_access.arn
-}
-
-output "s3_eks_access_role_name" {
-  description = "S3 접근용 IAM Role 이름 (EKS IRSA)"
-  value       = aws_iam_role.s3_eks_access.name
-}
-
-output "s3_access_policy_arn" {
-  description = "S3 접근용 IAM Policy ARN"
-  value       = aws_iam_policy.s3_access.arn
-}
+# output "s3_eks_access_role_arn" {
+#   description = "S3 접근용 IAM Role ARN (EKS IRSA)"
+#   value       = aws_iam_role.s3_eks_access.arn
+# }
+#
+# output "s3_eks_access_role_name" {
+#   description = "S3 접근용 IAM Role 이름 (EKS IRSA)"
+#   value       = aws_iam_role.s3_eks_access.name
+# }
+#
+# output "s3_access_policy_arn" {
+#   description = "S3 접근용 IAM Policy ARN"
+#   value       = aws_iam_policy.s3_access.arn
+# }

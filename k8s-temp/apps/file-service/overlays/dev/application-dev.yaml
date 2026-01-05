@@ -6,6 +6,8 @@ server:
 spring:
   cloud:
     aws:
+      credentials:
+        instance-profile: true
       region:
         static: ${AWS_REGION:ap-northeast-2}
       s3:
