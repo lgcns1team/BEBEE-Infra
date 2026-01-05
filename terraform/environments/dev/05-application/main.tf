@@ -343,7 +343,9 @@ module "secret_external_api" {
 
   secret_string = jsonencode({
     # Kakao OAuth (소셜 로그인)
-    kakao_api_key = var.kakao_api_key
+    kakao_api_key = var.kakao_api_key,
+    toss_client_key = var.toss_client_key,
+    toss_secret_key = var.toss_secret_key
   })
 
   tags = {

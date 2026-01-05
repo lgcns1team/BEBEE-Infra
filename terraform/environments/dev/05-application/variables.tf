@@ -84,3 +84,17 @@ variable "kakao_api_key" {
   sensitive   = true
   default     = "CHANGE_ME"
 }
+
+variable "toss_client_key" {
+  description = "토스 클라이언트 키"
+  type = string
+  sensitive = true
+  default = "CHANGE_ME"
+}
+
+variable "toss_secret_key" {
+  description = "토스 시크릿 키"
+  type = string
+  sensitive = true
+  default = "CHANGE_ME"
+}
