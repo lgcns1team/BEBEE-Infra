@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bebee-services
+  namespace: argocd
+  labels:
+    environment: dev
+spec:
+  generators:
+  - list:
+      elements:
+        - name: file
+          path: k8s/apps/file-service/overlays/dev
+        - name: chat
+          path: k8s/apps/chat-service/overlays/dev
+        - name: match
+          path: k8s/apps/match-service/overlays/dev
+        - name: member
+          path: k8s/apps/member-service/overlays/dev
+        - name: notification
+          path: k8s/apps/notification-service/overlays/dev
+        - name: payment
+          path: k8s/apps/payment-service/overlays/dev
+        - name: gateway
+          path: k8s/apps/gateway/overlays/dev
+  template:
+    metadata:
+      name: '{{name}}-service'
+      namespace: argocd
+      labels:
+        environment: dev
+        service: '{{name}}'
+        app.kubernetes.io/part-of: bebee
+    spec:
+      project: bebee
+
+      source:
+        repoURL: https://github.com/lgcns1team/BEBEE-Infra.git
+        targetRevision: develop
+        path: '{{path}}'
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: bebee
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+
+      ignoreDifferences:
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+            - /spec/replicas
+

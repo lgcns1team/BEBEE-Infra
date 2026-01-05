@@ -6,12 +6,13 @@ namespace: bebee
 resources:
   - ../../base
   - secret-manager-sa.yaml
+  - messaging-sa.yaml
   - secret-store.yaml
   - external-secret.yaml
 
 labels:
-  - pairs:
-      environment: dev
+- pairs:
+    environment: dev
 
 configMapGenerator:
   - name: payment-service-config

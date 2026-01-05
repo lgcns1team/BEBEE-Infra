@@ -13,12 +13,16 @@ spec:
   selector:
     matchLabels:
       app: file-service
+      app.kubernetes.io/name: file-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: bebee
   template:
     metadata:
       labels:
         app: file-service
         app.kubernetes.io/name: file-service
         app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: bebee
     spec:
       containers:
       - name: file-service
@@ -34,6 +38,6 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /file/actuator/health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 20

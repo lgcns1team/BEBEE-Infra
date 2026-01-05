@@ -21,19 +21,19 @@ spec:
         app.kubernetes.io/component: backend
     spec:
       containers:
-        - name: member-service
-          image: bebee-member-service:latest
-          
-          ports:
-            - containerPort: 8080
-              name: http
-          
-          envFrom:
-            - secretRef:
-                name: member-service-env
+      - name: member-service
+        image: bebee-member-service:latest
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 8080
 
-          livenessProbe:
-            httpGet:
-              path: /member/actuator/health
-              port: 8080
-            initialDelaySeconds: 20
+        envFrom:
+          - secretRef:
+              name: member-service-env
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 20

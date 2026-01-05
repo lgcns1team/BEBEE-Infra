@@ -3,15 +3,15 @@ kind: Service
 metadata:
   name: file-service
   labels:
+    app: file-service
     app.kubernetes.io/name: file-service
     app.kubernetes.io/component: backend
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/name: file-service
+    app: file-service
   ports:
     - name: http
       port: 80
       targetPort: 8080
       protocol: TCP
-

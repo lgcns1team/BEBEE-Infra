@@ -6,12 +6,13 @@ namespace: bebee
 resources:
   - ../../base
   - secret-manager-sa.yaml
+  - messaging-sa.yaml
   - secret-store.yaml
   - external-secret.yaml
 
 labels:
-  - pairs:
-      environment: dev
+- pairs:
+    environment: dev
 
 configMapGenerator:
   - name: match-service-config
@@ -21,7 +22,7 @@ configMapGenerator:
 images:
   - name: bebee-match-service
     newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-match-service
-    newTag: latest
+    newTag: ebb30504518f993b90a1b044f55443eb6a7d841d
 
 patches:
   - path: deployment-patch.yaml

@@ -4,10 +4,13 @@ kind: Kustomization
 namespace: bebee
 
 resources:
-  - ../../../common
-  - deployment.yaml
-  - service.yaml
+  - ../../base
 
 labels:
   - pairs:
       environment: dev
+
+images:
+  - name: bebee-swagger-service
+    newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-swagger-service
+    newTag: latest

@@ -3,17 +3,13 @@ kind: Kustomization
 
 namespace: bebee
 
-# Base 리소스
-resources:
-  - ../../common
-  - deployment.yaml
-  - service.yaml
-
-# 공통 레이블
 labels:
-  - includeSelectors: true
-    pairs:
+  - pairs:
       app: file-service
       app.kubernetes.io/name: file-service
       app.kubernetes.io/component: backend
       app.kubernetes.io/part-of: bebee
+
+resources:
+  - deployment.yaml
+  - service.yaml

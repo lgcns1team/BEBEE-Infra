@@ -3,14 +3,13 @@ kind: Kustomization
 
 namespace: bebee
 
-resources:
-  - ../../common
-  - deployment.yaml
-  - service.yaml
-
 labels:
   - pairs:
       app: match-service
       app.kubernetes.io/name: match-service
       app.kubernetes.io/component: backend
       app.kubernetes.io/part-of: bebee
+
+resources:
+  - deployment.yaml
+  - service.yaml
