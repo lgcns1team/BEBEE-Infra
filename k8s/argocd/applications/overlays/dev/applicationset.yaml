@@ -10,19 +10,19 @@ spec:
   - list:
       elements:
         - name: file
-          path: k8s-temp/apps/file-service/overlays/dev
+          path: k8s/apps/file-service/overlays/dev
         - name: chat
-          path: k8s-temp/apps/chat-service/overlays/dev
+          path: k8s/apps/chat-service/overlays/dev
         - name: match
-          path: k8s-temp/apps/match-service/overlays/dev
+          path: k8s/apps/match-service/overlays/dev
         - name: member
-          path: k8s-temp/apps/member-service/overlays/dev
+          path: k8s/apps/member-service/overlays/dev
         - name: notification
-          path: k8s-temp/apps/notification-service/overlays/dev
+          path: k8s/apps/notification-service/overlays/dev
         - name: payment
-          path: k8s-temp/apps/payment-service/overlays/dev
+          path: k8s/apps/payment-service/overlays/dev
         - name: gateway
-          path: k8s-temp/apps/gateway/overlays/dev
+          path: k8s/apps/gateway/overlays/dev
   template:
     metadata:
       name: '{{name}}-service'
