@@ -39,3 +39,8 @@ output "secrets_manager_irsa_policy_arn" {
   description = "Secrets Manager IRSA Policy ARN"
   value       = module.secrets_manager_irsa.iam_policy_arn
 }
+
+output "secret_external_api_arn" {
+  description = "External API Secret ARN"
+  value       = module.secret_external_api.secret_arn
+}

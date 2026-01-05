@@ -330,3 +330,26 @@ resource "aws_iam_role_policy_attachment" "s3_eks_access" {
   role       = aws_iam_role.s3_eks_access.name
   policy_arn = aws_iam_policy.s3_access.arn
 }
+
+# ========================================
+# Secrets Manager - 외부 API 키 (통합)
+# ========================================
+
+module "secret_external_api" {
+  source = "../../../modules/secrets-manager"
+
+  secret_name = "${var.project}-${var.environment}-external-api"
+  description = "외부 API 인증 정보 (OAuth, 결제, 푸시 알림 등)"
+
+  secret_string = jsonencode({
+    # Kakao OAuth (소셜 로그인)
+    kakao_api_key = var.kakao_api_key
+  })
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Type        = "external-api"
+  }
+}

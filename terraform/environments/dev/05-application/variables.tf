@@ -37,13 +37,13 @@ variable "jwt_issuer" {
 variable "access_token_expires_in" {
   description = "Access Token 만료 시간 (초)"
   type        = number
-  default     = 900
+  default     = 86400
 }
 
 variable "refresh_token_expires_in" {
   description = "Refresh Token 만료 시간 (초)"
   type        = number
-  default     = 86400
+  default     = 602800
 }
 
 variable "db_schemas" {
@@ -72,4 +72,15 @@ variable "mongodb_password" {
   description = "MongoDB 비밀번호"
   type        = string
   sensitive   = true
+}
+
+# ========================================
+# 외부 API 인증 정보
+# ========================================
+
+variable "kakao_api_key" {
+  description = "카카오 API KEY"
+  type        = string
+  sensitive   = true
+  default     = "CHANGE_ME"
 }
