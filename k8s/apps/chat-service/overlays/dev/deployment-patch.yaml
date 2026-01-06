@@ -6,7 +6,7 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: match-service-account-sa
+      serviceAccountName: chat-service-account-sa
       containers:
       - name: chat-service
         volumeMounts:
