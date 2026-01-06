@@ -23,6 +23,13 @@ spring:
         hibernate:
           format_sql: ${FORMAT_SQL:false}
 
+  data:
+    redis:
+      # Redis Host
+      host: ${REDIS_HOST:}
+      # Redis Port
+      port: ${REDIS_PORT:}
+
   flyway:
     enabled: true
     locations:
