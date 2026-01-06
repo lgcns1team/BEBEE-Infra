@@ -25,6 +25,11 @@ spring:
         hibernate:
           format_sql: ${FORMAT_SQL:false}
 
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+
   flyway:
     enabled: true
     locations:
@@ -61,7 +66,13 @@ springdoc:
 #  max-age: ${CORS_MAX_AGE:3600}
 
 event:
-  type: "spring"
+  type: "aws"
+
+app:
+  sns:
+    match-topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-match-topic}"
+  sqs:
+    match-queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-match-queue}"
 
 kakao:
   api:
