@@ -53,7 +53,12 @@ spring:
         uri: ${MONGODB_URI:mongodb://${MONGODB_USERNAME:bebee}:${MONGODB_PASSWORD:bebee1234}@${MONGODB_HOST:mongo-db}:27017/bebee?authSource=bebee}
         auto-index-creation: ${AUTO_INDEX_CREATION:false}
 
-  # Flyway 설정ㅇ
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+
+  # Flyway 설정
   flyway:
     # Flyway 활성화
     enabled: true
