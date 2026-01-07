@@ -20,6 +20,7 @@ spring:
               '[/**]':
                 allowedOriginPatterns:
                   - "https://be-bee.link"
+                  - "https://api.be-bee.link"
                   - "http://localhost:[*]"
                   - "https://localhost:[*]"
                   - "http://127.0.0.1:[*]"

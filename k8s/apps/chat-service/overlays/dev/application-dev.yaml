@@ -112,7 +112,7 @@ tsid:
 # WebSocket Handshake를 허용할 클라이언트 출처 패턴 목록
 websocket:
   stomp:
-    allowed-origin-patterns: "${WEBSOCKET_ALLOWED_ORIGINS:http://localhost:[*],https://localhost:[*]}"
+    allowed-origin-patterns: "*"
 
 app:
   sns:
