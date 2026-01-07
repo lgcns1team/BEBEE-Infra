@@ -108,6 +108,7 @@ gateway:
       - /swagger-ui.html
       - /member/test/**
       - /file/**
+      - /chat/ws/**
 
 springdoc:
   api-docs:
