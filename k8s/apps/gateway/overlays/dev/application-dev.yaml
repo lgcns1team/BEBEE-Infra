@@ -51,19 +51,19 @@ spring:
               filters:
                 - RewritePath=/match/(?<segment>.*), /$\{segment}
 
+            # Chat WS WebSocket
+            - id: chat-ws-service
+              uri: ${SERVICE_CHAT_WS_URL:ws://chat-service}
+              predicates:
+                - Path=/chat/ws/**
+              filters:
+                - RewritePath=/chat/(?<segment>.*), /$\{segment}
+                -
             # Chat Service
             - id: chat-service
               uri: ${SERVICE_CHAT_URL:http://chat-service}
               predicates:
                 - Path=/chat/**
-              filters:
-                - RewritePath=/chat/(?<segment>.*), /$\{segment}
-
-            # Chat WebSocket
-            - id: chat-ws-service
-              uri: ${SERVICE_CHAT_WS_URL:ws://chat-service}
-              predicates:
-                - Path=/chat/ws/**
               filters:
                 - RewritePath=/chat/(?<segment>.*), /$\{segment}
 
