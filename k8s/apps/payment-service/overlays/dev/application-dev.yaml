@@ -57,7 +57,9 @@ springdoc:
   api:
     desc: "${SPRINGDOC_API_DESC:dev server}"
 
-
+tsid:
+  node:
+    id: ${NODE_ID:0}
 toss:
   payments:
     base-url: https://api.tosspayments.com
