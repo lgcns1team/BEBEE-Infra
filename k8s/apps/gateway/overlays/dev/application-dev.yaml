@@ -58,7 +58,7 @@ spring:
                 - Path=/chat/ws/**
               filters:
                 - RewritePath=/chat/(?<segment>.*), /$\{segment}
-                -
+
             # Chat Service
             - id: chat-service
               uri: ${SERVICE_CHAT_URL:http://chat-service}
