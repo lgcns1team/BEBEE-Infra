@@ -66,7 +66,7 @@ jwt:
 # OCR 서비스 설정
 ocr:
   base-url: ${OCR_SERVICE_URL:}
-  timeout: ${OCR_TIMEOUT:}
+  timeout: ${OCR_TIMEOUT:90000}
 
 logging:
   level:
