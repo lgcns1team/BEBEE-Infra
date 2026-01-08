@@ -22,7 +22,7 @@ configMapGenerator:
 images:
   - name: bebee-match-service
     newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-match-service
-    newTag: 73e82da063c24a466100e25e959e3c50231924cb
+    newTag: c087f9f29fd13d17a37bced5d4d340762a22484c
 
 patches:
   - path: deployment-patch.yaml
