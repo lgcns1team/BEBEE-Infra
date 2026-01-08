@@ -22,7 +22,7 @@ configMapGenerator:
 images:
   - name: bebee-payment-service
     newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-payment-service
-    newTag: 26ae68a85147fc7da5b84dc7d41040209f7b6320
+    newTag: 4f41a43af87580015fddf76253f87969fb68a463
 
 patches:
   - path: deployment-patch.yaml
