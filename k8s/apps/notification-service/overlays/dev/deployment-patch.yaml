@@ -23,7 +23,7 @@ spec:
             name: notification-service-config
         - name: firebase-key-volume
           secret:
-            secretName: notification-secrets
+            secretName: notification-service-env
             items:
               - key: firebase-service-account.json
                 path: firebase-service-account.json
