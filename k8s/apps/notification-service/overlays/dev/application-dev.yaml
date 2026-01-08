@@ -50,13 +50,10 @@ springdoc:
   api:
     desc: "${SPRINGDOC_API_DESC:dev server}"
 
-cors:
-  allowed-origin-patterns: "${CORS_ALLOWED_ORIGINS:http://localhost:[*],https://localhost:[*]}"
-  allowed-methods: "${CORS_ALLOWED_METHODS:GET,POST,PUT,PATCH,DELETE,OPTIONS}"
-  allowed-headers: "${CORS_ALLOWED_HEADERS:*}"
-  exposed-headers: "${CORS_EXPOSED_HEADERS:}"
-  allow-credentials: ${CORS_ALLOW_CREDENTIALS:true}
-  max-age: ${CORS_MAX_AGE:3600}
+# FCM 설정
+firebase:
+  # 서비스 계정 키 파일 경로
+  service-account-key-path: ${FIREBASE_SERVICE_ACCOUNT_KEY_PATH:classpath:firebase/firebase-service-account.json}
 
 logging:
   level:

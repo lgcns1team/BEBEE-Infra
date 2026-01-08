@@ -7,11 +7,23 @@ spec:
   template:
     spec:
       containers:
-      - name: notification-service
-        volumeMounts:
-          - name: config
-            mountPath: /app/config
+        - name: notification-service
+          env:
+            - name: FIREBASE_SERVICE_ACCOUNT_KEY_PATH
+              value: /app/secrets/firebase-service-account.json
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+            - name: firebase-key-volume
+              mountPath: /app/secrets
+              readOnly: true
       volumes:
-      - name: config
-        configMap:
-          name: notification-service-config
+        - name: config
+          configMap:
+            name: notification-service-config
+        - name: firebase-key-volume
+          secret:
+            secretName: notification-secrets
+            items:
+              - key: firebase-service-account.json
+                path: firebase-service-account.json
