@@ -10,7 +10,7 @@ spec:
         - name: notification-service
           env:
             - name: FIREBASE_SERVICE_ACCOUNT_KEY_PATH
-              value: /app/secrets/firebase-service-account.json
+              value: "file:/app/secrets/firebase-service-account.json"
           volumeMounts:
             - name: config
               mountPath: /app/config
@@ -25,5 +25,5 @@ spec:
           secret:
             secretName: notification-service-env
             items:
-              - key: firebase-service-account.json
-                path: firebase-service-account.json
+              - key: "firebase-service-account.json"
+                path: "firebase-service-account.json"

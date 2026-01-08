@@ -98,3 +98,10 @@ variable "toss_secret_key" {
   sensitive = true
   default = "CHANGE_ME"
 }
+
+
+variable "firebase_key_file_path" {
+  description = "Firebase 서비스 계정 키 파일 경로 (로컬)"
+  type        = string
+  default     = "firebase-service-account.json"
+}

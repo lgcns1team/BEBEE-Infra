@@ -25,7 +25,7 @@ variable "s3_cors_allowed_origins" {
 variable "ecr_repositories" {
   description = "ECR 리포지토리 목록 (서비스별)"
   type        = set(string)
-  default     = ["chat", "file", "match", "member", "notification", "payment", "swagger", "gateway"]
+  default     = ["chat", "file", "match", "member", "notification", "payment", "swagger", "gateway", "ocr"]
 }
 
 variable "cloudfront_price_class" {

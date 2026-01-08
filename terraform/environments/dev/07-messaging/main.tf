@@ -26,6 +26,9 @@ module "sns_topics" {
 
   name_prefix = "${var.project}-${var.environment}-${each.key}"
 
+  # 개발 환경에서는 암호화 비활성화 (KMS 권한 이슈 회피)
+  kms_master_key_id = ""
+
   tags = {
     Environment = var.environment
     Project     = var.project
@@ -148,6 +151,23 @@ resource "aws_iam_policy" "messaging_access" {
           "sqs:GetQueueUrl"
         ]
         Resource = "arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.project}-${var.environment}-*"
+      },
+      {
+        Sid    = "KMSAccess"
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt",
+          "kms:GenerateDataKey"
+        ]
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "kms:ViaService" = [
+              "sns.${data.aws_region.current.name}.amazonaws.com",
+              "sqs.${data.aws_region.current.name}.amazonaws.com"
+            ]
+          }
+        }
       }
     ]
   })

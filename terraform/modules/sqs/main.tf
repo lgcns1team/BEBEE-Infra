@@ -13,8 +13,9 @@ resource "aws_sqs_queue" "this" {
     maxReceiveCount     = var.max_receive_count
   }) : null
 
-  kms_master_key_id                 = "alias/aws/sqs"
-  kms_data_key_reuse_period_seconds = 300
+  # 개발 환경에서는 암호화 비활성화 (KMS 권한 이슈 회피)
+  # kms_master_key_id                 = "alias/aws/sqs"
+  # kms_data_key_reuse_period_seconds = 300
 
   tags = merge(
     var.tags,
@@ -30,7 +31,8 @@ resource "aws_sqs_queue" "dlq" {
   name  = "${var.name_prefix}-queue-dlq"
 
   message_retention_seconds = 1209600 # 14일 (최대값)
-  kms_master_key_id         = "alias/aws/sqs"
+  # 개발 환경에서는 암호화 비활성화
+  # kms_master_key_id         = "alias/aws/sqs"
 
   tags = merge(
     var.tags,
