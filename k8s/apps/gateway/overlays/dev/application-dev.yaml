@@ -102,7 +102,7 @@ jwt:
 gateway:
   auth:
     exclude-paths:
-      - /member/auth
+      - /member/auth/**
       - /*/api-docs
       - /api-docs/**
       - /swagger-ui/**
