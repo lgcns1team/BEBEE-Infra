@@ -31,7 +31,6 @@ spring:
         static: ap-northeast-2
 
   flyway:
-    ignore-migration-patterns: "*:.backup/*"
     enabled: true
     locations:
       - classpath:db/migration
