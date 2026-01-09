@@ -22,7 +22,7 @@ configMapGenerator:
 images:
   - name: bebee-chat-service
     newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-chat-service
-    newTag: 0aca0e3aa0495eda957165e031875630c5d363df
+    newTag: a1c505b57750767c2cdac1c9882e915030d13de7
 
 patches:
   - path: deployment-patch.yaml
