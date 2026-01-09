@@ -30,6 +30,11 @@ spring:
       # Redis Port
       port: ${REDIS_PORT:}
 
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+
   flyway:
     enabled: true
     locations:
@@ -60,6 +65,7 @@ springdoc:
 tsid:
   node:
     id: ${NODE_ID:0}
+
 toss:
   payments:
     base-url: https://api.tosspayments.com
@@ -67,6 +73,13 @@ toss:
     client-key: ${TOSS_CLIENT_KEY}
     timeout: 10000
     api-version: "2022-11-16"
+
+app:
+  sns:
+    payment-topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-payment-topic}"
+  sqs:
+    payment-queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-payment-queue}"
+
 
 logging:
   level:
