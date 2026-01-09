@@ -103,11 +103,13 @@ gateway:
   auth:
     exclude-paths:
       - /member/auth/**
+      - /member/test/**
+      - /member/documents/**
       - /*/api-docs
       - /api-docs/**
       - /swagger-ui/**
       - /swagger-ui.html
-      - /member/test/**
+
       - /file/**
       - /chat/ws/**
 
