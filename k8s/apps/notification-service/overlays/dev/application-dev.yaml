@@ -54,6 +54,8 @@ springdoc:
     aws:
       region:
         static: ap-northeast-2
+      stack:
+        auto: false
 
 # FCM 설정
 firebase:
