@@ -50,6 +50,11 @@ springdoc:
   api:
     desc: "${SPRINGDOC_API_DESC:dev server}"
 
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+
 # FCM 설정
 firebase:
   # 서비스 계정 키 파일 경로
