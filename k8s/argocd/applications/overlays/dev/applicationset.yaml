@@ -23,8 +23,8 @@ spec:
           path: k8s/apps/payment-service/overlays/dev
         - name: gateway
           path: k8s/apps/gateway/overlays/dev
-#        - name: ocr
-#          path: k8s/apps/ocr-service/overlays/dev
+        - name: ocr
+          path: k8s/apps/ocr-service/overlays/dev
   template:
     metadata:
       name: '{{name}}-service'
