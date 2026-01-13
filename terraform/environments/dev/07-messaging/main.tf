@@ -74,6 +74,14 @@ locals {
           eventType = ["AgreementConfirmedEvent"],
         }
       }
+    },
+    member = {
+      topics = ["payment"],
+      filters = {
+        match = {
+          eventType = ["HoneyWalletChangedEvent"],
+        }
+      }
     }
   }
 
