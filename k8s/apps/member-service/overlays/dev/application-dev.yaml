@@ -68,6 +68,13 @@ ocr:
   base-url: ${OCR_SERVICE_URL:}
   timeout: ${OCR_TIMEOUT:90000}
 
+app:
+  sns:
+    topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-member-topic}"
+  sqs:
+    queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-member-queue}"
+
+
 logging:
   level:
     root: ${LOGGING_LEVEL_ROOT:INFO}

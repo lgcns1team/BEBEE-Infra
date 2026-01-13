@@ -69,9 +69,9 @@ event: aws
 
 app:
   sns:
-    match-topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-match-topic}"
+    topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-match-topic}"
   sqs:
-    match-queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-match-queue}"
+    queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-match-queue}"
 
 kakao:
   api:

@@ -100,6 +100,7 @@ tsid:
   node:
     id: ${NODE_ID:0}
 
+
 ## CORS (Cross-Origin Resource Sharing) 설정
 #cors:
 #  allowed-origin-patterns: "${CORS_ALLOWED_ORIGINS:http://localhost:[*],https://localhost:[*]}"
@@ -116,9 +117,9 @@ websocket:
 
 app:
   sns:
-    chat-topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-chat-topic}"
+    topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-chat-topic}"
   sqs:
-    chat-queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-chat-queue}"
+    queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-chat-queue}"
 
 
 management:
