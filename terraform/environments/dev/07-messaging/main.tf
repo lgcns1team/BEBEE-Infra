@@ -45,18 +45,45 @@ module "sns_topics" {
 locals {
   # 서비스별 구독할 SNS Topic 매핑
   subscription_map = {
-    match        = ["member"]
-    chat         = ["member", "match"]
-    notification = ["chat", "match"]
-    payment = ["match"]
+    match = {
+      topics = ["member", "match"],
+      filters = {
+        match = {
+          eventType = [ "AgreementConfirmedEvent" ]
+        }
+      }
+    },
+    chat = {
+      topics = ["member", "match"],
+      filters = {
+        member = {},
+        match = {},
+      }
+    },
+    notification = {
+      topics = ["chat", "match"],
+      filters = {
+        chat = {},
+        match = {}
+      }
+    },
+    payment = {
+      topics = ["match"],
+      filters = {
+        match = {
+          eventType = ["AgreementConfirmedEvent"],
+        }
+      }
+    }
   }
 
   # 구독 관계를 (Queue, Topic) 쌍의 리스트로 변환
   subscriptions = flatten([
-    for queue_key, topics in local.subscription_map : [
-      for topic_key in topics : {
+    for queue_key, config in local.subscription_map : [
+      for topic_key in config.topics : {
         queue_key = queue_key
         topic_key = topic_key
+        filter = lookup(config.filters, topic_key, null)
       }
     ]
   ])
@@ -91,6 +118,9 @@ resource "aws_sns_topic_subscription" "sub" {
   topic_arn = module.sns_topics[each.value.topic_key].topic_arn
   protocol  = "sqs"
   endpoint  = module.sqs_queues[each.value.queue_key].queue_arn
+
+  filter_policy        = each.value.filter != null ? jsonencode(each.value.filter) : null
+  raw_message_delivery = true
 }
 
 # SQS 정책 설정 (SNS가 SQS에 메시지를 보낼 수 있도록 허용)
@@ -112,7 +142,7 @@ resource "aws_sqs_queue_policy" "sns_subscribe" {
         Condition = {
           ArnEquals = {
             "aws:SourceArn" = [
-              for t in each.value : module.sns_topics[t].topic_arn
+              for t in each.value.topics : module.sns_topics[t].topic_arn
             ]
           }
         }
