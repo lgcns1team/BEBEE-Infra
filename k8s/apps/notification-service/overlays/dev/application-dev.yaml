@@ -39,8 +39,6 @@ spring:
     aws:
       region:
         static: ap-northeast-2
-      stack:
-        auto: false
 
 springdoc:
   api-docs:
@@ -57,6 +55,9 @@ springdoc:
   api:
     desc: "${SPRINGDOC_API_DESC:dev server}"
 
+app:
+  sqs:
+    queue-url: "${AWS_SQS_QUEUE_URL:https://sqs.ap-northeast-2.amazonaws.com/383488877070/bebee-dev-member-queue}"
 
 # FCM 설정
 firebase:
