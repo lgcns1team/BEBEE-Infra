@@ -92,6 +92,14 @@ spring:
               filters:
                 - RewritePath=/file/(?<segment>.*), /$\{segment}
 
+            # OCR Service
+            - id: ocr-service
+              uri: ${SERVICE_OCR_URL:http://ocr-service}
+              predicates:
+                - Path=/file/**
+              filters:
+                - RewritePath=/ocr/(?<segment>.*), /$\{segment}
+
 # JWT 설정
 jwt:
   secret: ${JWT_SECRET:}
