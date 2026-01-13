@@ -120,6 +120,7 @@ gateway:
 
       - /file/**
       - /chat/ws/**
+      - /ocr/**
 
 springdoc:
   api-docs:
