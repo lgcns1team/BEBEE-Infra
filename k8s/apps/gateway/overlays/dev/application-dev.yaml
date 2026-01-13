@@ -96,7 +96,7 @@ spring:
             - id: ocr-service
               uri: ${SERVICE_OCR_URL:http://ocr-service}
               predicates:
-                - Path=/file/**
+                - Path=/ocr/**
               filters:
                 - RewritePath=/ocr/(?<segment>.*), /$\{segment}
 
