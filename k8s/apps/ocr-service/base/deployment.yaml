@@ -32,4 +32,4 @@ spec:
             httpGet:
               path: /health
               port: 8080
-            initialDelaySeconds: 100
+            initialDelaySeconds: 10000

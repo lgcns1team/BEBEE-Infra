@@ -65,8 +65,6 @@ springdoc:
 #  allow-credentials: ${CORS_ALLOW_CREDENTIALS:true}
 #  max-age: ${CORS_MAX_AGE:3600}
 
-event: aws
-
 app:
   sns:
     topic-arn: "${AWS_SNS_TOPIC_ARN:arn:aws:sns:ap-northeast-2:383488877070:bebee-dev-match-topic}"
