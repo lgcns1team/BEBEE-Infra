@@ -28,8 +28,17 @@ spec:
               protocol: TCP
               containerPort: 8080
 
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+
           livenessProbe:
             httpGet:
               path: /health
               port: 8080
-            initialDelaySeconds: 10000
+            initialDelaySeconds: 0
+            timeoutSeconds: 5
+            periodSeconds: 20
