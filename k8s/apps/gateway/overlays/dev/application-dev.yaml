@@ -12,6 +12,9 @@ spring:
 
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 10000      # 연결 타임아웃 (ms) - 기본 45초
+        response-timeout: 60s       # 응답 대기 타임아웃 - 기본 없음
       server:
         webflux:
           globalcors:
