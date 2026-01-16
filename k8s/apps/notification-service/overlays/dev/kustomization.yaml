@@ -22,7 +22,7 @@ configMapGenerator:
 images:
   - name: bebee-notification-service
     newName: 383488877070.dkr.ecr.ap-northeast-2.amazonaws.com/bebee-notification-service
-    newTag: bdb87a69758acb522393c6a6fd00b771d5c0f070
+    newTag: 525bc1ccb37ee0d8e5b036d09be95f23100e5271
 
 patches:
   - path: deployment-patch.yaml
