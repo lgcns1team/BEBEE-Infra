@@ -37,7 +37,7 @@ spring:
         static: ap-northeast-2
 
   flyway:
-    enabled: true
+    enabled: false
     locations:
       - classpath:db/migration
       - classpath:db/seed
