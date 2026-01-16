@@ -31,10 +31,10 @@ spring:
         static: ap-northeast-2
 
   flyway:
-    enabled: true
+    enabled: false
     locations:
-      - classpath:db/migration
-      - classpath:db/seed
+#      - classpath:db/migration
+#      - classpath:db/seed
     encoding: UTF-8
     baseline-on-migrate: true
     baseline-version: 0
